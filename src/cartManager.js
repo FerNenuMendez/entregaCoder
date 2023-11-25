@@ -60,16 +60,18 @@ export class CartsManager {
 
         if (carritoIndex !== -1) {
             const carrito = db[carritoIndex];
-            const existingProduct = carrito.products.find((p) => p.id === pid);
+
+            const existingProduct = carrito.productos.find((p) => p.id === pid);
             if (existingProduct) {
                 existingProduct.quantity += quantity || 1;
             } else {
-                carrito.products.push({ id: pid, quantity: quantity || 1 });
+                carrito.productos.push({ id: pid, quantity: quantity || 1 });
             }
             await this.saveCarritos(db);
         } else {
             console.log(`Carrito con ID ${cid} no encontrado`);
         }
     }
+
 }
 
