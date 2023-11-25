@@ -1,32 +1,31 @@
-import {Cart} from '../cartManager.js'
+import { CartsManager } from '../cartManager.js'
+import fs from 'fs/promises'
 
-const id = new Date()
-const carrito = new Cart()
+const db = new CartsManager()
 
-export async function postController(req, res){
-    carrito.crearCarrito()
+
+export async function postControllerCart(req, res) {
+    const nuevoCarrito = await db.nuevoCarrito()
+    res.json(nuevoCarrito)
 }
 
-export async function getControllerId(req, res) {
+export async function getControllerIdCart(req, res) {
     const id = Number(req.params.id)
-    const buscada = await carrito.getPedidoById(id)
-    if (!buscada) {
+    const buscado = await db.getCarritoProductsById(id)
+    if (!buscado) {
         res.status(404).json({
-            message: `persona con id ${id} not found`
+            message: `Carrito con id ${id} not found`
         })
     } else {
-        res.json(buscada)
+        res.json(buscado)
     }
 }
 
-export async function postControllerProduct(req, res){
-    const {data} = req.body
-    try {
-        const item = await carrito.addPedido([{data}])
-        res.json(item)
-    } catch (error){
-        res.status(400).json({
-            message: error.message
-        })
-    }
+
+
+export async function postControllerProductCart(req, res) {
+    const cid = Number(req.params.cid)
+    const pid = Number(req.params.pid)
+    const buscado = await db.addProductsToCarrito(cid, pid)
+    res.json(buscado)
 }

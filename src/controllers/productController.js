@@ -23,11 +23,11 @@ export async function getControllerId(req, res) {
 }
 
 export async function postController(req, res) {
-    const {title, description, price, thumbnail, code, stock, status, category} = req.body
+    const { title, description, price, thumbnail, code, stock, status, category } = req.body
     try {
-        const item = await pm.addProduct({title, description, price, thumbnail, code, stock, status, category})
+        const item = await pm.addProduct({ title, description, price, thumbnail, code, stock, status, category })
         res.json(item)
-    } catch (error){
+    } catch (error) {
         res.status(400).json({
             message: error.message
         })
@@ -35,25 +35,25 @@ export async function postController(req, res) {
 }
 
 export async function putController(req, res) {
-    const id = Number(req.params.id)
-    const {title, description, price, thumbnail, code, stock, status, category} = req.body
-    try{
-        const actualizar = await pm.updateProduct(id, {title, description, price, thumbnail, code, stock, status, category})
-        res.json(actualizar)
-    } catch (error){
+    const id = Number(req.params.id);
+    const updateObject = req.body;
+
+    try {
+        const actualizar = await pm.updateProduct(id, updateObject);
+        res.json(actualizar);
+    } catch (error) {
         res.status(400).json({
             message: error.message
-        })
-    }
-    console.log('pase por el product putController')
+        });
+    };
 }
 
 export async function deleteController(req, res) {
     const id = Number(req.params.id)
-    try{
+    try {
         const borrado = await pm.deleteProduct(id)
         res.json(borrado)
-    } catch (error){
+    } catch (error) {
         res.status(404).json({
             message: error.message
         })

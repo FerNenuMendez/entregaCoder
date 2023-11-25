@@ -1,45 +1,75 @@
 import fs from 'fs/promises'
 
-export class Cart {
-    #id
-    #cart
-    #path
-
-    constructor(id){
-        this.#id=id
-        this.#cart = []
-        this.#path='db/carrito.json'
+export class Carrito {
+    constructor({ id }) {
+        this.id = id
+        this.productos = []
     }
-
-    async crearCarrito(){
-        const carrito = {id: this.#id, products: this.#cart }
-        await fs.writeFile(this.#path, JSON.stringify(carrito, null, 2))
-    }
-
-    async savePedidos(pedido) {
-        await fs.writeFile(this.#path, JSON.stringify(pedido, null, 2));
-    }
-
-    async getCarrito() {
-        const carrito = JSON.parse(await fs.readFile(this.#path, 'utf-8'))
-        return carrito
-    }
-
-    async getPedidoById(id) {
-        const db = await this.getCarrito()
-        const pedidoBuscado = db.find((e) => e.id === id)
-        if (pedidoBuscado) {
-            return pedidoBuscado
-        } else {
-            console.log(`Producto con ${id}, no encontrado`)
+    toPOJO() {
+        return {
+            id: this.id,
+            productos: this.productos
         }
+    }
+    async getProducts() {
+        const products = await this.productos
+        return products
+    }
+    async addProducts(id) {
+        const db = await this.getProducts()
+        const productsData = { id: id, quantity: 1 }
+        db.push(productsData)
+    }
+}
 
+export class CartsManager {
+    #path
+    constructor() {
+        this.products = [];
+        this.#path = 'db/carritos.json'
     }
-    async addPedido(data){
-        const carrito = await this.getCarrito()
-        const nextId = carrito.length + 1;
-        const pedidoData = {id:nextId, products:data}
-        carrito.push(pedidoData)
-        await this.savePedidos(carrito)
+    async getDb() {
+        const db = JSON.parse(await fs.readFile(this.#path, 'utf-8'))
+        return db
     }
-} 
+
+    async saveCarritos(productos) {
+        await fs.writeFile(this.#path, JSON.stringify(productos, null, 2));
+    }
+
+    async nuevoCarrito() {
+        const db = await this.getDb()
+        const nextID = db.length + 1
+        const carritoData = { id: nextID, products: [] }
+        const carrito = new Carrito(carritoData)
+        db.push(carrito)
+        await this.saveCarritos(db)
+    }
+    async getCarritoProductsById(id) {
+        const db = await this.getDb()
+        const carritoBuscado = db.find((e) => e.id === id)
+        if (carritoBuscado) {
+            return carritoBuscado
+        } else {
+            console.log(`Carrito con ${id}, no encontrado`)
+        }
+    }
+    async addProductsToCarrito(cid, pid, quantity) {
+        const db = await this.getDb();
+        const carritoIndex = db.findIndex((c) => c.id === cid);
+
+        if (carritoIndex !== -1) {
+            const carrito = db[carritoIndex];
+            const existingProduct = carrito.products.find((p) => p.id === pid);
+            if (existingProduct) {
+                existingProduct.quantity += quantity || 1;
+            } else {
+                carrito.products.push({ id: pid, quantity: quantity || 1 });
+            }
+            await this.saveCarritos(db);
+        } else {
+            console.log(`Carrito con ID ${cid} no encontrado`);
+        }
+    }
+}
+

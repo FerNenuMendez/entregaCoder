@@ -43,6 +43,7 @@ class Product {
             category: this.category
         }
     }
+
 }
 
 export class ProductManager {
@@ -70,12 +71,17 @@ export class ProductManager {
     }
 
     async addProduct(data) {
-        const productos = await this.getProducts()
+        const { thumbnails, ...restData } = data;
+        const productos = await this.getProducts();
         const nextId = productos.length + 1;
-        const productData = { id: nextId, ...data }
-        const product = new Product(productData)
-        productos.push(product)
-        await this.saveProducts(productos)
+        const productData = {
+            id: nextId,
+            ...restData,
+            thumbnails: thumbnails || []
+        }
+        const product = new Product(productData);
+        productos.push(product);
+        await this.saveProducts(productos);
     }
 
 
@@ -97,15 +103,16 @@ export class ProductManager {
         await fs.writeFile(this.#path, JSON.stringify(nuevaDb, null, 2))
     }
 
-    async updateProduct(id, atributo, nuevoValor) {
+    async updateProduct(id, updateObject) {
         const productos = await this.getProducts();
         const productIndex = productos.findIndex((producto) => producto.id === id);
         if (productIndex !== -1) {
-            if (productos[productIndex].hasOwnProperty(atributo)) {
-                productos[productIndex][atributo] = nuevoValor;
+            const producto = productos[productIndex];
+            if (updateObject.hasOwnProperty('atributo')) {
+                producto[updateObject.atributo] = updateObject.nuevoValor;
                 await this.saveProducts(productos);
             } else {
-                console.log(`El atributo "${atributo}" no existe en el producto.`);
+                console.log('El objeto de actualización debe contener un atributo.');
             }
         } else {
             console.log(`Producto con ID ${id} no encontrado.`);
