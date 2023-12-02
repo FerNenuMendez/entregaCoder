@@ -1,4 +1,4 @@
-import { ProductManager } from "../productManager.js"
+import { ProductManager } from "../services/productManager.js"
 
 
 const pm = new ProductManager('db/productos.json')

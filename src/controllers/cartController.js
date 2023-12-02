@@ -1,7 +1,7 @@
-import { CartsManager } from '../cartManager.js'
-import fs from 'fs/promises'
+import { CartsManager } from '../services/cartManager.js'
 
-const db = new CartsManager()
+
+export const db = new CartsManager()
 
 
 export async function postControllerCart(req, res) {
