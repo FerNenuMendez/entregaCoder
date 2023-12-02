@@ -1,7 +1,7 @@
 import { ProductManager } from "../services/productManager.js"
 
 
-const pm = new ProductManager('db/productos.json')
+export const pm = new ProductManager('db/productos.json')
 
 
 export async function getController(req, res) {

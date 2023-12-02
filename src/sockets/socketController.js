@@ -1,13 +1,22 @@
-import { db } from '../controllers/cartController.js'
+import { pm } from '../controllers/productController.js'
 
-export function mostrarProductosTiempoReal(socketServer) {
+export function onConnection(socketServer) {
+    return async function (socket) {
+        console.log('se conectó exitosamente')
+    }
+}
+
+export function mostrarTiempoReal(socketServer) {
     return function (req, res, next) {
         res['mostrarProductos'] = async () => {
-
-            const baseProduct = await db.getDb()
-            console.log(baseProduct)
-
+            const db = await pm.getProducts()
+            console.log(db)
+            socketServer.emit(
+                'productos',
+                db
+            )
         }
         next()
     }
 }
+
