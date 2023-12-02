@@ -10,7 +10,9 @@ function traerProductos() {
         <p>Descripción: ${product.description}</p>
         <p>Precio: $${product.price}</p>
         `)
-        rtDiv.appendChild(productosHTML)
+
+        rtDiv.innerHTML(productosHTML)
+
     })
 }
 traerProductos()

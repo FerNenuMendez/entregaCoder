@@ -10,7 +10,6 @@ export function mostrarTiempoReal(socketServer) {
     return function (req, res, next) {
         res['mostrarProductos'] = async () => {
             const db = await pm.getProducts()
-            console.log(db)
             socketServer.emit(
                 'productos',
                 db
