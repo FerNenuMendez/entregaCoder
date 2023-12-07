@@ -31,5 +31,60 @@
     "stock": 10,
     "status": true,
     "category": "Libreria"
+  },
+  {
+    "id": 4,
+    "title": "Goma Eva",
+    "description": "buena",
+    "price": 50,
+    "thumbnail": "../src",
+    "code": 102,
+    "stock": 5,
+    "status": true,
+    "category": "Libreria"
+  },
+  {
+    "id": 5,
+    "title": "Goma de borrar",
+    "description": "buena",
+    "price": 50,
+    "thumbnail": "../src",
+    "code": 102,
+    "stock": 5,
+    "status": true,
+    "category": "Libreria"
+  },
+  {
+    "id": 6,
+    "title": "Boligoma",
+    "description": "buena",
+    "price": 50,
+    "thumbnail": "../src",
+    "code": 102,
+    "stock": 5,
+    "status": true,
+    "category": "Libreria"
+  },
+  {
+    "id": 7,
+    "title": "Hojas carpeta",
+    "description": "buena",
+    "price": 50,
+    "thumbnail": "../src",
+    "code": 102,
+    "stock": 5,
+    "status": true,
+    "category": "Libreria"
+  },
+  {
+    "id": 8,
+    "title": "Hojas carpeta",
+    "description": "malas",
+    "price": 50,
+    "thumbnail": "../src",
+    "code": 107,
+    "stock": 5,
+    "status": true,
+    "category": "Libreria"
   }
 ]

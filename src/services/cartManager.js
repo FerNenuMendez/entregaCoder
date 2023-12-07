@@ -1,3 +1,4 @@
+import { randomUUID } from 'crypto'
 import fs from 'fs/promises'
 
 export class Carrito {
@@ -39,8 +40,8 @@ export class CartsManager {
 
     async nuevoCarrito() {
         const db = await this.getDb()
-        const nextID = db.length + 1
-        const carritoData = { id: nextID, products: [] }
+        // const nextID = db.length + 1
+        const carritoData = { id: randomUUID(), products: [] }
         const carrito = new Carrito(carritoData)
         db.push(carrito)
         await this.saveCarritos(db)

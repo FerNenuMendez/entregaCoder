@@ -11,7 +11,7 @@ function traerProductos() {
         <p>Precio: $${product.price}</p>
         `)
 
-        rtDiv.innerHTML(productosHTML)
+        rtDiv.innerHTML = productosHTML
 
     })
 }

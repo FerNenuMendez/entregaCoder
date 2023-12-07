@@ -1,5 +1,5 @@
-import { ProductManager } from "../services/productManager.js"
-
+// import { ProductManager } from "../services/productManager.js"
+import { productManager } from "../../mongodb/mongodb.js"
 
 export const pm = new ProductManager('db/productos.json')
 
@@ -27,6 +27,7 @@ export async function postController(req, res) {
     try {
         const item = await pm.addProduct({ title, description, price, thumbnail, code, stock, status, category })
         res.json(item)
+        res['mostrarProductos']()
     } catch (error) {
         res.status(400).json({
             message: error.message

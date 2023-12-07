@@ -1,4 +1,5 @@
 import fs from 'fs/promises'
+import { randomUUID } from 'crypto'
 
 export function notNull(valor) {
     if (valor === null || valor === undefined) {
@@ -73,9 +74,9 @@ export class ProductManager {
     async addProduct(data) {
         const { thumbnails, ...restData } = data;
         const productos = await this.getProducts();
-        const nextId = productos.length + 1;
+        // const nextId = productos.length + 1;
         const productData = {
-            id: nextId,
+            id: randomUUID(),
             ...restData,
             thumbnails: thumbnails || []
         }
