@@ -1,7 +1,8 @@
-// import { ProductManager } from "../services/productManager.js"
-import { productManager } from "../../mongodb/mongodb.js"
+// import { ProductManager } from "../dao/productManager.js"
+import { ProductManager } from "../mongodb/mongodb.js"
 
-export const pm = new ProductManager('db/productos.json')
+
+export const pm = new ProductManager()
 
 
 export async function getController(req, res) {
@@ -10,7 +11,7 @@ export async function getController(req, res) {
 }
 
 export async function getControllerId(req, res) {
-    const id = Number(req.params.id)
+    const id = (req.params.id)
     const buscada = await pm.getProductById(id)
     if (!buscada) {
         res.status(404).json({
@@ -19,14 +20,12 @@ export async function getControllerId(req, res) {
     } else {
         res.json(buscada)
     }
-    console.log('pase por el product getControllerId')
 }
 
 export async function postController(req, res) {
     const { title, description, price, thumbnail, code, stock, status, category } = req.body
     try {
-        const item = await pm.addProduct({ title, description, price, thumbnail, code, stock, status, category })
-        res.json(item)
+        const item = await pm.collection.insertOne({ title, description, price, thumbnail, code, stock, status, category })
         res['mostrarProductos']()
     } catch (error) {
         res.status(400).json({
@@ -50,13 +49,20 @@ export async function putController(req, res) {
 }
 
 export async function deleteController(req, res) {
-    const id = Number(req.params.id)
+    const objectId = (req.params.id)
     try {
-        const borrado = await pm.deleteProduct(id)
-        res.json(borrado)
+        const resultado = await pm.deleteProduct(objectId)
+        if (resultado.deletedCount === 0) {
+            return res.status(404).json({
+                message: 'Producto no encontrado'
+            });
+        }
+        res.json({
+            message: 'Producto eliminado correctamente'
+        });
     } catch (error) {
-        res.status(404).json({
+        res.status(500).json({
             message: error.message
-        })
+        });
     }
 }
