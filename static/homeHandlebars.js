@@ -11,7 +11,7 @@ fetch('http://localhost:8080/api/products/')
     .then(data => {
         const db = data
         const productosHTML = db.map(product => `
-        <h2>Id: ${product.id}</h2>
+        <h2>Id: ${product._id}</h2>
         <h3>${product.title}</h3>
         <p>Descripción: ${product.description}</p>
         <p>Precio: $${product.price}</p>
