@@ -28,7 +28,7 @@ function iniciarChat(usuario) {
         event.preventDefault()
         const texto = inputMensaje?.value
         if (texto) {
-            socket.emit('mensaje', {
+            socket.emit('msjs', {
                 timestamp: Date.now(),
                 usuario,
                 texto
@@ -40,7 +40,7 @@ function iniciarChat(usuario) {
     socket.on('nuevoUsuario', nuevoUsuario => {
 
         Swal.fire({
-            text: 'nuevo usuario: ' + nuevoUsuario,
+            text: 'Se conecto: ' + nuevoUsuario,
             toast: true,
             position: 'top-right'
         })
