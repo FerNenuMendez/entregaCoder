@@ -1,0 +1,28 @@
+<h1> Productos </h1>
+
+{{#if hayDocs}}
+<div class="ulProduct">
+  {{#each doc}}
+  <h2>Producto: {{this.title}}</h2>
+  <h3>Descripcion: {{this.description}}</h3>
+  <h4>Precio: {{this.price}}</h4>
+  <h4>Codigo: {{this.code}}</h4>
+  {{/each}}
+</div>
+{{else}}
+nada para mostrar...<br>
+{{/if}}
+
+<a {{#if hasPrevPage}} href="/?limit={{limit}}&page={{prevPage}}" {{/if}}>Prev</a>
+[{{ page }}]
+<a {{#if hasNextPage}} href="/?limit={{limit}}&page={{nextPage}}" {{/if}}>Next</a><br>
+Página: <input type="text"> <button onclick="irAPag({{limit}})">ir</button>
+<script>
+  function irAPag(limit) {
+    const pagDeseada = document.querySelector('input').value || 1
+    window.location = `/?limit=${limit}&page=${pagDeseada}`
+  }
+</script>
+
+
+<script src="../src/routers/webRouter.js"></script>

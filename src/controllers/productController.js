@@ -6,7 +6,7 @@ export const pm = new ProductManager()
 
 
 export async function getController(req, res) {
-    const { limit } = req.query
+    const { limit, page, } = req.query
     res.json(await pm.getProducts({ limit }))
 }
 

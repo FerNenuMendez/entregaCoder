@@ -1,5 +1,5 @@
 import { Router, json } from 'express'
-import { MensajesManager } from '../mongodb/mongodb.js'
+import { MensajesManager, ProductManager } from '../mongodb/mongodb.js'
 
 
 export const webRouter = Router()
@@ -7,6 +7,42 @@ webRouter.use(json())
 
 webRouter.get('/', (req, res) => {
     res.render('home.handlebars', { titulo: 'Productos' })
+})
+
+webRouter.get('/products', async (req, res) => {
+    try {
+        const criterio = {}
+        if (req.query.category) { criterio.category = req.query.category }
+
+        const opcionesDePaginacion = {
+            limit: req.query.limit || 10,
+            page: req.query.page || 1,
+            lean: true
+        }
+        const result = await ProductManager.paginate(criterio, opcionesDePaginacion)
+        console.log(result)
+        // res.json(result)
+        res.render('products.handlebars', {
+            hayDocs: result.docs.length > 0,
+            pageTitle: "Productos",
+            status: result.status,
+            doc: result.docs,
+            totalPages: result.totalPages,
+            prevPage: result.prevPage,
+            nextPage: result.nextPage,
+            page: result.page,
+            hasPrevPage: result.hasPrevPage,
+            hasNextPage: result.hasNextPage,
+            prevLink: result.prevLink,
+            nextLink: result.nextLink
+        })
+    } catch (error) {
+        res.status(400).json({
+            status: 'error',
+            message: error.message
+        })
+    }
+
 })
 
 webRouter.get('/realtimeproducts', (req, res) => {
