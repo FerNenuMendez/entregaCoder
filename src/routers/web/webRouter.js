@@ -1,5 +1,5 @@
 import { Router, json } from 'express'
-import { MensajesManager, ProductManager } from '../mongodb/mongodb.js'
+import { MensajesManager, ProductManager } from '../../mongodb/mongodb.js'
 
 
 export const webRouter = Router()
@@ -74,3 +74,18 @@ webRouter.post('/chat', async (req, res) => {
         })
     }
 })
+
+webRouter.get('/login', (req, res) => {
+    res.render('login.handlebars', { pageTitle: 'Login' })
+})
+
+webRouter.get('/register', (req, res) => {
+    res.render('register.handlebars', { pageTitle: 'Registro' })
+})
+
+// webRouter.get('/profile', onlyLogueadosWeb, (req, res) => {
+//     res.render('profile.handlebars', {
+//         pageTitle: 'Perfil',
+//         ...req.session['user']
+//     })
+// })

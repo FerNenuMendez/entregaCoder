@@ -1,5 +1,5 @@
 import express, { Router } from "express";
-import { getController, postController, getControllerId, putController, deleteController } from "../controllers/productController.js";
+import { getController, postController, getControllerId, putController, deleteController } from "../../controllers/productController.js";
 
 export const productRouter = Router()
 productRouter.get('/api/products/', getController)

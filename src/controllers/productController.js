@@ -27,6 +27,7 @@ export async function postController(req, res) {
     try {
         const item = await pm.collection.insertOne({ title, description, price, thumbnail, code, stock, status, category })
         res['mostrarProductos']()
+        res.sendStatus(200)
     } catch (error) {
         res.status(400).json({
             message: error.message

@@ -11,6 +11,18 @@ export async function postControllerCart(req, res) {
     res.json(nuevoCarrito)
 }
 
+export async function getControllerCartProduct(req, res) {
+    const cid = (req.params.id)
+    const buscado = await db.getCarritoProductsById(cid)
+    if (!buscado._eventsCount === 0) {
+        res.status(404).json({
+            message: `Carrito con id ${cid} not found`
+        })
+    } else {
+        res.json(buscado)
+    }
+}
+
 export async function getControllerIdCart(req, res) {
     const id = (req.params.id)
     const buscado = await db.getCarritoProductsById(id)
