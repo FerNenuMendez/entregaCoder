@@ -4,11 +4,11 @@ import { postControllerProductCart, postControllerCart, getControllerIdCart, put
 
 export const cartRouter = Router()
 
-cartRouter.get('/api/carts/:id', getControllerIdCart)
-cartRouter.get('/api/carts/:cid', getControllerCartProduct)
-cartRouter.post('/api/carts/', express.json(), postControllerCart)
-cartRouter.post('/api/carts/:cid/product/:pid', express.json(), postControllerProductCart)
-cartRouter.put('/api/carts/:cid/products/:pid', express.json(), putControllerCart)
-cartRouter.delete('/api/carts/:cid', express.json(), deleteTotalControllerProductCart)
-cartRouter.delete('/api/carts/:cid/product/:pid', express.json(), deleteControllerProductCart)
+cartRouter.get('/:id', getControllerIdCart)
+cartRouter.get('/:cid', getControllerCartProduct)
+cartRouter.post('/', express.json(), postControllerCart)
+cartRouter.post('/:cid/product/:pid', express.json(), postControllerProductCart)
+cartRouter.put('/:cid/products/:pid', express.json(), putControllerCart)
+cartRouter.delete('/:cid', express.json(), deleteTotalControllerProductCart)
+cartRouter.delete('/:cid/product/:pid', express.json(), deleteControllerProductCart)
 

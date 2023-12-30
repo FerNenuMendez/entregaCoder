@@ -1,12 +1,11 @@
 import express from "express";
 import handlebars from 'express-handlebars'
-import { productRouter } from './routers/api/productRouter.js'
-import { cartRouter } from './routers/api/cartRouter.js'
 import { webRouter } from "./routers/web/webRouter.js";
+import { apiRouter } from "./routers/api/apiRouter.js"
 import { Server } from "socket.io";
 import { mostrarTiempoReal, onConnection } from "./sockets/socketController.js";
 import { PORT } from "./config.js";
-
+import { sesiones } from './middlewares/sesiones.js'
 
 const app = express()
 app.use(express.json())
@@ -25,6 +24,7 @@ websocketServer.on('connection', onConnection(websocketServer))
 app.use(mostrarTiempoReal(websocketServer))
 app.use('/static', express.static('./static'))
 
-app.use(productRouter)
-app.use(cartRouter)
+app.use(sesiones)
+
 app.use(webRouter)
+app.use('/api', apiRouter)

@@ -1,5 +1,6 @@
 import { Router, json } from 'express'
 import { MensajesManager, ProductManager } from '../../mongodb/mongodb.js'
+import { onlyLogueadosWeb } from '../../middlewares/autorizaciones.js'
 
 
 export const webRouter = Router()
@@ -75,17 +76,17 @@ webRouter.post('/chat', async (req, res) => {
     }
 })
 
-webRouter.get('/login', (req, res) => {
+webRouter.get('/api/usuarios/login', (req, res) => {
     res.render('login.handlebars', { pageTitle: 'Login' })
 })
 
-webRouter.get('/register', (req, res) => {
-    res.render('register.handlebars', { pageTitle: 'Registro' })
+webRouter.get('/api/usuarios/register', (req, res) => {
+    res.render('register.handlebars', { pageTitle: 'Registrarse' })
 })
 
-// webRouter.get('/profile', onlyLogueadosWeb, (req, res) => {
-//     res.render('profile.handlebars', {
-//         pageTitle: 'Perfil',
-//         ...req.session['user']
-//     })
-// })
+webRouter.get('/api/usuarios/profile', onlyLogueadosWeb, (req, res) => {
+    res.render('profile.handlebars', {
+        pageTitle: 'Perfil',
+        ...req.session['user']
+    })
+})
