@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { MONGODB_STRG } from "../config.js"
+import { MONGODB_STRG } from "../utils/config.js"
 
 await mongoose.connect(MONGODB_STRG)
 //await mongoose.connect('mongodb+srv://fermodmen:<>@clusterdata.xlbloof.mongodb.net/')

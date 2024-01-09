@@ -1,6 +1,6 @@
 import session from 'express-session'
 import connectMongo from 'connect-mongo'
-import { SS, MONGODB_STRG } from '../config.js'
+import { SS, MONGODB_STRG } from '../utils/config.js'
 
 
 const store = connectMongo.create({

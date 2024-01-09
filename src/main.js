@@ -4,7 +4,7 @@ import { webRouter } from "./routers/web/webRouter.js";
 import { apiRouter } from "./routers/api/apiRouter.js"
 import { Server } from "socket.io";
 import { mostrarTiempoReal, onConnection } from "./sockets/socketController.js";
-import { PORT } from "./config.js";
+import { PORT } from "./utils/config.js"
 import { sesiones } from './middlewares/sesiones.js'
 
 const app = express()

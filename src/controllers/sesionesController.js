@@ -1,33 +1,48 @@
 import { UsuarioManager } from '../mongodb/mongodb.js'
-import { ADMIN_EMAIL } from '../config.js'
+import { ADMIN_EMAIL } from '../utils/config.js'
+import { hasheadasSonIguales } from '../utils/criptografia.js'
+
+export async function getControllerSesion(req, res) {
+    if (req.session['user']) {
+        return res.json(req.session['user'])
+    }
+    res.status(400).json({ status: 'error', message: 'no hay una sesion iniciada' })
+}
 
 export async function postControllerSesion(req, res) {
-    const usuario = await UsuarioManager.findOne(req.body)
-    if (!usuario) {
-        return res
-            .status(401)
-            .json({
-                status: 'error',
-                message: 'login failed'
-            })
-    }
-    req.session['user'] = {
-        nombre: usuario.nombre,
-        apellido: usuario.apellido,
-        email: usuario.email,
-    }
-    if (usuario.email === ADMIN_EMAIL) {
-        req.session['user'].rol = 'admin'
+
+    const { email, password } = req.body
+
+    let datosUsuario
+
+    if (email === ADMIN_EMAIL && password === 'adminCod3r123') {
+        datosUsuario = {
+            email: 'admin',
+            nombre: 'admin',
+            apellido: 'admin',
+            rol: 'admin'
+        }
     } else {
-        req.session['user'].rol = 'usuario'
+        const usuario = await UsuarioManager.findOne({ email }).lean()
+
+        if (!usuario) {
+            return res.status(400).json({ status: 'error', message: 'Usuario no encontrado' })
+        }
+
+        if (!hasheadasSonIguales(password, usuario.password)) {
+            return res.status(400).json({ status: 'error', message: 'Password incorrecta' })
+        }
+
+        datosUsuario = {
+            email: usuario.email,
+            nombre: usuario.nombre,
+            apellido: usuario.apellido,
+            rol: 'usuario'
+        }
     }
 
-    res
-        .status(201)
-        .json({
-            status: 'success',
-            payload: req.session['user']
-        })
+    req.session['user'] = datosUsuario
+    res.status(201).json({ status: 'success', message: 'login success' })
 }
 
 export async function deleteControllerSesion(req, res) {
