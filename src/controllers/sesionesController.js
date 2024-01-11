@@ -10,39 +10,15 @@ export async function getControllerSesion(req, res) {
 }
 
 export async function postControllerSesion(req, res) {
-
     const { email, password } = req.body
+    try {
 
-    let datosUsuario
-
-    if (email === ADMIN_EMAIL && password === 'adminCod3r123') {
-        datosUsuario = {
-            email: 'admin',
-            nombre: 'admin',
-            apellido: 'admin',
-            rol: 'admin'
-        }
-    } else {
-        const usuario = await UsuarioManager.findOne({ email }).lean()
-
-        if (!usuario) {
-            return res.status(400).json({ status: 'error', message: 'Usuario no encontrado' })
-        }
-
-        if (!hasheadasSonIguales(password, usuario.password)) {
-            return res.status(400).json({ status: 'error', message: 'Password incorrecta' })
-        }
-
-        datosUsuario = {
-            email: usuario.email,
-            nombre: usuario.nombre,
-            apellido: usuario.apellido,
-            rol: 'usuario'
-        }
+        const datosUsuario = await UsuarioManager.login(email, password)
+        req.session['user'] = datosUsuario
+        res.status(201).json({ status: 'success', message: 'login success' })
+    } catch (error) {
+        return res.status(401).json({ status: 'error', message: error.message })
     }
-
-    req.session['user'] = datosUsuario
-    res.status(201).json({ status: 'success', message: 'login success' })
 }
 
 export async function deleteControllerSesion(req, res) {
