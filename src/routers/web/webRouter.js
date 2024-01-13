@@ -1,6 +1,6 @@
 import { Router, json } from 'express'
 import { MensajesManager, ProductManager } from '../../mongodb/mongodb.js'
-import { onlyLogueadosWeb } from '../../middlewares/autorizaciones.js'
+
 
 
 export const webRouter = Router()
@@ -84,9 +84,9 @@ webRouter.get('/api/usuarios/register', (req, res) => {
     res.render('register.handlebars', { pageTitle: 'Registrarse' })
 })
 
-webRouter.get('/api/usuarios/profile', onlyLogueadosWeb, (req, res) => {
+webRouter.get('/api/usuarios/profile', (req, res) => {
     res.render('profile.handlebars', {
         pageTitle: 'Perfil',
-        ...req.session['user']
+        user: req.user
     })
 })

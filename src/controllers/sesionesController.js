@@ -1,23 +1,10 @@
-import { UsuarioManager } from '../mongodb/mongodb.js'
 
+import { onlyLogueadosRest } from '../middlewares/autorizaciones.js'
 
 export async function getControllerSesion(req, res) {
-    if (req.session['user']) {
-        return res.json(req.session['user'])
-    }
-    res.status(400).json({ status: 'error', message: 'no hay una sesion iniciada' })
+    onlyLogueadosRest(),
+        res.json(req.user)
 }
-
-// export async function postControllerSesion(req, res) {
-//     const { email, password } = req.body
-//     try {
-//         const datosUsuario = await UsuarioManager.login(email, password)
-//         req.session['user'] = datosUsuario
-//         res.status(201).json({ status: 'success', message: 'login success' })
-//     } catch (error) {
-//         return res.status(401).json({ status: 'error', message: error.message })
-//     }
-// }
 
 export async function deleteControllerSesion(req, res) {
     req.session.destroy(err => {

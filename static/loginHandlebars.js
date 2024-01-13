@@ -11,7 +11,7 @@ formLogin?.addEventListener('submit', async event => {
     })
 
     if (response.status === 201) {
-        const sesion = await response.json()
+
         window.location.href = '/api/usuarios/profile'
     } else {
         const error = await response.json()

@@ -6,7 +6,7 @@ import { Server } from "socket.io";
 import { mostrarTiempoReal, onConnection } from "./sockets/socketController.js";
 import { PORT } from "./utils/config.js"
 import { sesiones } from './middlewares/sesiones.js'
-import { passportInitialize, passportSession } from "./middlewares/passport.js";
+import { passportInitialize, passportSession } from "./middlewares/passportConfig.js";
 
 
 const app = express()
