@@ -84,7 +84,7 @@ webRouter.get('/api/usuarios/register', (req, res) => {
     res.render('register.handlebars', { pageTitle: 'Registrarse' })
 })
 
-webRouter.get('/api/usuarios/profile', function (req, res) {
+webRouter.get('/api/usuarios/profile', (req, res) => {
     res.render('profile.handlebars', {
         pageTitle: 'Perfil',
         user: req.user

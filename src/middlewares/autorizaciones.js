@@ -4,10 +4,3 @@ export function onlyLogueadosRest(req, res, next) {
     }
     next()
 }
-
-// export function onlyLogueadosWeb(req, res, next) {
-//     if (!req.session['user']) {
-//         return res.redirect('/api/usuarios/login')
-//     }
-//     next()
-// }

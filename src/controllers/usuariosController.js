@@ -5,7 +5,7 @@ import { onlyLogueadosRest } from '../middlewares/autorizaciones.js'
 
 export async function getControllerUser(req, res) {
     onlyLogueadosRest()
-    const usuario = await UsuarioManager.findOne({ email: req.session['user'].email }, { password: 0 }).lean()
+    const usuario = await UsuarioManager.findOne({ email: req['user'].email }, { password: 0 }).lean()
     res.json({ status: 'success', payload: usuario })
 }
 

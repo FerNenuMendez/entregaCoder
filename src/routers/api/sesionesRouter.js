@@ -1,22 +1,18 @@
 import passport from 'passport'
 import { Router } from 'express'
-import { onlyLogueadosRest } from '../../middlewares/autorizaciones.js'
 import { deleteControllerSesion } from '../../controllers/sesionesController.js'
+import passport from 'passport'
 
 export const sesionesRouter = Router()
 
 sesionesRouter.post('/',
     passport.authenticate('loginLocal', {
-        failWithError: true
-    }),
-    async (req, res, next) => {
-        res.status(201).json({ status: 'success', message: 'login success' })
-    },
-    (error, req, res, next) => {
-        res.status(401).json({ status: 'error', message: error.message })
-    })
+        failWithError: true,
+        successRedirect: '/api/usuarios/profile',
+        failureRedirect: '/api/usuarios/login'
 
-sesionesRouter.get('/current', onlyLogueadosRest, (req, res) => {
-    res.json(req.user)
-})
+    }),
+
+)
+sesionesRouter.get('/current', getControllerSesion)
 sesionesRouter.delete('/current', deleteControllerSesion)
