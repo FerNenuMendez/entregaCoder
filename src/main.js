@@ -30,4 +30,3 @@ app.use(passportInitialize, passportSession)
 
 app.use(webRouter)
 app.use('/api', apiRouter)
-app.use(passportInitialize, passportSession)

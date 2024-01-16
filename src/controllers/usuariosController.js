@@ -1,13 +1,5 @@
 import { UsuarioManager } from '../mongodb/mongodb.js'
 import { hashear } from '../utils/criptografia.js'
-import { onlyLogueadosRest } from '../middlewares/autorizaciones.js'
-
-
-export async function getControllerUser(req, res) {
-    onlyLogueadosRest()
-    const usuario = await UsuarioManager.findOne({ email: req['user'].email }, { password: 0 }).lean()
-    res.json({ status: 'success', payload: usuario })
-}
 
 export async function postControllerUser(req, res) {
 

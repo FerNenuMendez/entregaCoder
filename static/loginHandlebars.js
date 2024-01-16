@@ -10,7 +10,7 @@ formLogin?.addEventListener('submit', async event => {
         body: new URLSearchParams(new FormData(formLogin))
     })
 
-    if (response.status === 201) {
+    if (response.status === 200) {
         window.location.href = '/api/usuarios/profile'
     } else {
         const error = await response.json()
