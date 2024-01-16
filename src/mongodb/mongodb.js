@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
-import { MONGODB_STRG } from "../utils/config.js"
+import { ATLASDB_STRG } from "../utils/config.js"
 
-await mongoose.connect(MONGODB_STRG)
+await mongoose.connect(ATLASDB_STRG)
 //await mongoose.connect('mongodb+srv://fermodmen:<>@clusterdata.xlbloof.mongodb.net/')
 
 

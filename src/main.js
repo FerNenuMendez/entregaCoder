@@ -6,6 +6,7 @@ import { Server } from "socket.io";
 import { mostrarTiempoReal, onConnection } from "./sockets/socketController.js";
 import { PORT } from "./utils/config.js"
 import { sesiones } from './middlewares/sesiones.js'
+import { passportInitialize, passportSession } from './middlewares/passportConfig.js'
 
 const app = express()
 app.use(express.json())
@@ -25,6 +26,8 @@ app.use(mostrarTiempoReal(websocketServer))
 app.use('/static', express.static('./static'))
 
 app.use(sesiones)
+app.use(passportInitialize, passportSession)
 
 app.use(webRouter)
 app.use('/api', apiRouter)
+app.use(passportInitialize, passportSession)

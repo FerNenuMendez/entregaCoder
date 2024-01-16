@@ -31,7 +31,7 @@ const usuarioSchema = new Schema({
                 }
 
                 if (!hasheadasSonIguales(password, usuario['password'])) {
-                    throw new Error('login failed')
+                    throw new Error('password failed')
                 }
 
                 datosUsuario = {
