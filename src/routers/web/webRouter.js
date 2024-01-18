@@ -1,5 +1,6 @@
 import { Router, json } from 'express'
 import { MensajesManager, ProductManager } from '../../mongodb/mongodb.js'
+import passport from 'passport'
 
 
 
@@ -90,3 +91,9 @@ webRouter.get('/api/usuarios/profile', (req, res) => {
         user: req.user
     })
 })
+
+webRouter.get('/api/usuarios/logingithub', passport.authenticate('loginGithub'))
+webRouter.get('/githubcallback', passport.authenticate('loginGithub', {
+    successRedirect: '/api/usuarios/profile',
+    failureRedirect: '/api/usuarios/login'
+})) 
